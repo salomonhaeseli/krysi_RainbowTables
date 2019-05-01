@@ -85,12 +85,42 @@ public class Main {
 
        ArrayList<String> password = firstPassword;
 
-       int indexInPassword = lengthOfPassword;
+       int indexInPassword = lengthOfPassword-1;
 
-       for(int indexInZ=0; indexInZ<Z.size();indexInZ++){
-           password.add(indexInPassword, Z.get(indexInZ));
-           System.out.println(password);
-       }
+       password = makePassword(password, indexInPassword,Z);
+
+       System.out.println(password);
+
+//       for (int i=0;i<2;i++) {
+//           for (int indexInZ = 0; indexInZ < Z.size(); indexInZ++) {
+//               password.set(indexInPassword, Z.get(indexInZ));
+//               // password.add(indexInPassword, Z.get(indexInZ));
+//               System.out.println(password);
+//           }
+//        indexInPassword--;
+//       }
+    }
+
+    public static ArrayList<String> makePassword(ArrayList<String> password, int indexInPassword, ArrayList<String> Z){
+        for (int indexInZ = 0; indexInZ < Z.size(); indexInZ++) {
+            password.set(indexInPassword, Z.get(indexInZ));
+            // password.add(indexInPassword, Z.get(indexInZ));
+            //System.out.println(password);
+
+            if (indexInPassword<=5) {
+                for (int i = indexInPassword + 1; i <7; i++) {
+                    for (int j = 0; j < Z.size(); j++) {
+                        password.set(i, Z.get(j));
+                        System.out.println(password);
+                    }
+                }
+            }
+        }
+
+        if (indexInPassword-1>-1){
+            makePassword(password, indexInPassword-1,Z);
+        }
+        return password;
     }
 
     ////Reduktionsfunktion
