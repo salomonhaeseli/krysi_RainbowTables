@@ -1,0 +1,103 @@
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
+
+import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.math3.util.CombinatoricsUtils;
+
+public class Main {
+
+    public static void main(String[] args) {
+        ArrayList<String> Z = generateZ();
+        generatePassword(lengthOfPassword);
+
+    }
+
+    static int lengthOfPassword = 7;
+
+
+    /**
+     * generate Z
+     * @return
+     */
+    public static ArrayList<String> generateZ() {
+        ArrayList<String> Z = new ArrayList();
+        Z.add("0");
+        Z.add("1");
+        Z.add("2");
+        Z.add("3");
+        Z.add("4");
+        Z.add("5");
+        Z.add("6");
+        Z.add("7");
+        Z.add("8");
+        Z.add("9");
+        Z.add("a");
+        Z.add("b");
+        Z.add("c");
+        Z.add("d");
+        Z.add("e");
+        Z.add("f");
+        Z.add("g");
+        Z.add("h");
+        Z.add("i");
+        Z.add("j");
+        Z.add("k");
+        Z.add("l");
+        Z.add("m");
+        Z.add("n");
+        Z.add("o");
+        Z.add("p");
+        Z.add("q");
+        Z.add("r");
+        Z.add("s");
+        Z.add("t");
+        Z.add("u");
+        Z.add("v");
+        Z.add("w");
+        Z.add("x");
+        Z.add("y");
+        Z.add("z");
+        return Z;
+    }
+
+
+    /**
+     * generate Hash
+     * @param password
+     * @return
+     */
+    public static String generateHash(String password) {
+        String hash = DigestUtils.md5Hex(password);
+        return hash;
+    }
+
+
+    //Generate password
+    public static void generatePassword(int lengthOfPassword) {
+        String[] letters = {"a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"};
+        String[] numbers = {"0","1","2","3","4","5","6","7","","9"};
+        String[] generatedPassword = new String[lengthOfPassword];
+        int start = 0;
+        int end = lengthOfPassword;
+
+        for(int i = 0; i < 10; i++) {
+            for(int j = 0; j < lengthOfPassword; j++){
+                generatedPassword[j] = numbers[start];
+            }
+        }
+    }
+
+    ////Reduktionsfunktion
+    //public void Reduktionsfunktion(ArrayList<String> Hashwert, int Stufe, ArrayList<String> Z){
+    //    ArrayList<String> H = Hashwert + Stufe;
+    //    for (int i = 0; i < L; i++){
+    //        int roundI = H%Z.size();
+    //        H = H / Z.size();
+    //    }
+    //    return H;
+    //}
+
+    //Create first 2000 passwords
+}
+
