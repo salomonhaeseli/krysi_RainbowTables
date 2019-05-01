@@ -9,7 +9,7 @@ public class Main {
 
     public static void main(String[] args) {
         ArrayList<String> Z = generateZ();
-        generatePassword(lengthOfPassword);
+        //generatePassword(lengthOfPassword);
 
     }
 
