@@ -8,8 +8,7 @@ import org.apache.commons.math3.util.CombinatoricsUtils;
 public class Main {
 
     public static void main(String[] args) {
-        ArrayList<String> Z = generateZ();
-        //generatePassword(lengthOfPassword);
+        generatePassword(generateZ(), lengthOfPassword);
 
     }
 
@@ -74,18 +73,24 @@ public class Main {
 
 
     //Generate password
-    public static void generatePassword(int lengthOfPassword) {
-        String[] letters = {"a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"};
-        String[] numbers = {"0","1","2","3","4","5","6","7","","9"};
-        String[] generatedPassword = new String[lengthOfPassword];
-        int start = 0;
-        int end = lengthOfPassword;
+    public static void generatePassword(ArrayList<String> Z, int lengthOfPassword) {
+       ArrayList<String> firstPassword = new ArrayList<String>();
+       firstPassword.add("0");
+       firstPassword.add("0");
+       firstPassword.add("0");
+       firstPassword.add("0");
+       firstPassword.add("0");
+       firstPassword.add("0");
+       firstPassword.add("0");
 
-        for(int i = 0; i < 10; i++) {
-            for(int j = 0; j < lengthOfPassword; j++){
-                generatedPassword[j] = numbers[start];
-            }
-        }
+       ArrayList<String> password = firstPassword;
+
+       int indexInPassword = lengthOfPassword;
+
+       for(int indexInZ=0; indexInZ<Z.size();indexInZ++){
+           password.add(indexInPassword, Z.get(indexInZ));
+           System.out.println(password);
+       }
     }
 
     ////Reduktionsfunktion
