@@ -1,6 +1,7 @@
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.stream.Collectors;
 
 import org.apache.commons.codec.digest.DigestUtils;
 
@@ -12,11 +13,9 @@ public class Main {
         generateHash("0000000");
         for (int i = 0; i < amountOfPasswords; i++){
             password = generatePassword(password, lengthOfPassword, generateZ());
-            String passwordAsString = String.join(", ", password);
-            //System.out.println(passwordAsString);
-            //System.out.println(generateHash(passwordAsString));
-
-
+            String passwordAsString = password.stream()
+                    .map(n -> String.valueOf(n))
+                    .collect(Collectors.joining("","", ""));
         }
     }
 
