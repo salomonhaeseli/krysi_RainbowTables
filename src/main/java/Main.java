@@ -1,4 +1,5 @@
 import java.lang.reflect.Array;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.stream.Collectors;
@@ -126,12 +127,29 @@ public class Main {
     }
 
     //Reduktionsfunktion
- //   public void Reduktionsfunktion(ArrayList<String> Hashwert, int Stufe, ArrayList<String> Z){
- //       ArrayList<String> H = Hashwert + Stufe;
- //       for (int i = 0; i < L; i++){
- //           int roundI = H%Z.size();
- //           H = H / Z.size();
- //       }
- //       return H;
- //   }
+    public static String Reduktionsfunktion(String Hashwert, int Stufe, ArrayList<String> Z){
+        int L = lengthOfPassword;
+        BigInteger H = new BigInteger(Hashwert,16);
+        int zSize = Z.size();
+        try{
+            H = H.add(BigInteger.valueOf(Stufe));
+        }catch(NumberFormatException e){
+            System.out.println("Das geht nicht");
+        }
+
+        int[] roundI = new int[L];
+
+        for (int i = 1; i < L+1; i++){
+            roundI[L-i] = H.mod(BigInteger.valueOf(zSize)).intValue();
+            System.out.println(roundI[L-i]);
+            H = H.divide(BigInteger.valueOf(zSize));
+        }
+        String hHelper = "";
+        for(int I : roundI){
+           hHelper = hHelper.concat(Z.get(I));
+        }
+        return hHelper;
+
+    }
+
 }
