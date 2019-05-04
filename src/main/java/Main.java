@@ -126,7 +126,14 @@ public class Main {
         return password;
     }
 
-    //Reduktionsfunktion
+
+    /**
+     * Reduktionsfunktion gemäss Folie 3.27.
+     * @param Hashwert: Hashwert, welcher reduziert werden soll.
+     * @param Stufe: Die Stufe, welche mit dem, in einen BigInteger verwandelte, Hashwert addiert wird.
+     * @param Z: Liste der möglichen Zeichen im Passwort. Wird gebraucht um neues mögliches Passwort zu erhalten.
+     * @return : Mögliches neues Passwort.
+     */
     public static String Reduktionsfunktion(String Hashwert, int Stufe, ArrayList<String> Z){
         int L = lengthOfPassword;
         BigInteger H = new BigInteger(Hashwert,16);
@@ -141,7 +148,6 @@ public class Main {
 
         for (int i = 1; i < L+1; i++){
             roundI[L-i] = H.mod(BigInteger.valueOf(zSize)).intValue();
-            System.out.println(roundI[L-i]);
             H = H.divide(BigInteger.valueOf(zSize));
         }
         String hHelper = "";

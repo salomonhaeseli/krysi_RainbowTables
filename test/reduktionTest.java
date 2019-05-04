@@ -15,20 +15,11 @@ public class reduktionTest {
         ArrayList<String> Z = Main.generateZ();
         String result = Main.Reduktionsfunktion("29c3eea3f305d6b823f562ac4be35217", 0, Z);
         assertEquals("87inwgn", result);
-
-
+        String result2 = Main.Reduktionsfunktion("12e2feb5a0feccf82a8d4172a3bd51c3", 1, Z);
+        assertEquals("frrkiis", result2);
+        String result3 = Main.Reduktionsfunktion("437988e45a53c01e54d21e5dc4ae658a", 2, Z);
+        assertEquals("dues6fg", result3);
     }
 
-   @Test
-   public void hexTesting(){
-        BigInteger bi = new BigInteger("29c3eea3f305d6b823f562ac4be35217", 16);
-        System.out.println("BigInteger " + bi);
-        Long l = new BigInteger("29c3eea3f305d6b823f562ac4be35217", 16).longValue();
-        System.out.println("long "+l);
-        String in = Integer.toHexString(10);
-        System.out.println("HexString " + in);
-
-
-   }
 
 }
