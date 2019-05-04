@@ -1,22 +1,43 @@
+import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
 
 import org.apache.commons.codec.digest.DigestUtils;
-import org.apache.commons.math3.util.CombinatoricsUtils;
 
 public class Main {
 
     public static void main(String[] args) {
-        generatePassword(generateZ(), lengthOfPassword);
 
+        ArrayList<String> password = generateFirstPassword();
+        for (int i = 0; i < amountOfPasswords; i++){
+            password = generatePassword(password, lengthOfPassword, generateZ());
+            System.out.println(password);
+        }
     }
 
     static int lengthOfPassword = 7;
+    static int amountOfPasswords = 2000;
 
+    /**
+     * generate first password
+     *
+     * @return
+     */
+    public static ArrayList<String> generateFirstPassword() {
+        ArrayList<String> firstPassword = new ArrayList<String>();
+        firstPassword.add("0");
+        firstPassword.add("0");
+        firstPassword.add("0");
+        firstPassword.add("0");
+        firstPassword.add("0");
+        firstPassword.add("0");
+        firstPassword.add("0");
+
+        return firstPassword;
+    }
 
     /**
      * generate Z
+     *
      * @return
      */
     public static ArrayList<String> generateZ() {
@@ -60,9 +81,9 @@ public class Main {
         return Z;
     }
 
-
     /**
      * generate Hash
+     *
      * @param password
      * @return
      */
@@ -71,57 +92,36 @@ public class Main {
         return hash;
     }
 
+    /**
+     * generatePassword, Idee von Till Dreier übernommen
+     * @param password
+     * @param lengthOfPassword
+     * @param Z
+     * @return
+     */
+    public static ArrayList<String> generatePassword(ArrayList<String> password, int lengthOfPassword, ArrayList<String> Z) {
+        boolean increment = true;
+        int index = lengthOfPassword - 1;
 
-    //Generate password
-    public static void generatePassword(ArrayList<String> Z, int lengthOfPassword) {
-       ArrayList<String> firstPassword = new ArrayList<String>();
-       firstPassword.add("0");
-       firstPassword.add("0");
-       firstPassword.add("0");
-       firstPassword.add("0");
-       firstPassword.add("0");
-       firstPassword.add("0");
-       firstPassword.add("0");
-
-       ArrayList<String> password = firstPassword;
-
-       int indexInPassword = lengthOfPassword-1;
-
-       password = makePassword(password, indexInPassword,Z);
-
-       System.out.println(password);
-
-//       for (int i=0;i<2;i++) {
-//           for (int indexInZ = 0; indexInZ < Z.size(); indexInZ++) {
-//               password.set(indexInPassword, Z.get(indexInZ));
-//               // password.add(indexInPassword, Z.get(indexInZ));
-//               System.out.println(password);
-//           }
-//        indexInPassword--;
-//       }
-    }
-
-    public static ArrayList<String> makePassword(ArrayList<String> password, int indexInPassword, ArrayList<String> Z){
-        for (int indexInZ = 0; indexInZ < Z.size(); indexInZ++) {
-            password.set(indexInPassword, Z.get(indexInZ));
-            // password.add(indexInPassword, Z.get(indexInZ));
-            //System.out.println(password);
-
-            if (indexInPassword<=5) {
-                for (int i = indexInPassword + 1; i <7; i++) {
-                    for (int j = 0; j < Z.size(); j++) {
-                        password.set(i, Z.get(j));
-                        System.out.println(password);
+        while (increment == true) {
+            if (password.get(index).equals("z")) {
+                password.set(index, "0");
+                index--;
+            } else {
+                for (int indexInZ = 0; indexInZ < Z.size() - 1; indexInZ++) {
+                    if(password.get(index)==Z.get(indexInZ)){
+                        password.set(index, Z.get(indexInZ+1));
+                        break;
                     }
                 }
+                increment = false;
             }
-        }
-
-        if (indexInPassword-1>-1){
-            makePassword(password, indexInPassword-1,Z);
         }
         return password;
     }
+}
+
+
 
     ////Reduktionsfunktion
     //public void Reduktionsfunktion(ArrayList<String> Hashwert, int Stufe, ArrayList<String> Z){
@@ -132,7 +132,3 @@ public class Main {
     //    }
     //    return H;
     //}
-
-    //Create first 2000 passwords
-}
-
