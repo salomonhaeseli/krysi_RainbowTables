@@ -20,7 +20,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="krysi_RainbowTables" target="1.5" />
+      <module name="krysi_RainbowTables" target="8" />
     </bytecodeTargetLevel>
   </component>
 </project>

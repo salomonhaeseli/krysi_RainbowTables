@@ -1,5 +1,6 @@
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import org.apache.commons.codec.digest.DigestUtils;
 
@@ -8,9 +9,14 @@ public class Main {
     public static void main(String[] args) {
 
         ArrayList<String> password = generateFirstPassword();
+        generateHash("0000000");
         for (int i = 0; i < amountOfPasswords; i++){
             password = generatePassword(password, lengthOfPassword, generateZ());
-            System.out.println(password);
+            String passwordAsString = String.join(", ", password);
+            //System.out.println(passwordAsString);
+            //System.out.println(generateHash(passwordAsString));
+
+
         }
     }
 
@@ -88,7 +94,7 @@ public class Main {
      * @return
      */
     public static String generateHash(String password) {
-        String hash = DigestUtils.md5Hex(password);
+        String hash = DigestUtils.md5Hex(String.valueOf(password));
         return hash;
     }
 
@@ -103,7 +109,7 @@ public class Main {
         boolean increment = true;
         int index = lengthOfPassword - 1;
 
-        while (increment == true) {
+        while (increment) {
             if (password.get(index).equals("z")) {
                 password.set(index, "0");
                 index--;
@@ -119,16 +125,14 @@ public class Main {
         }
         return password;
     }
+
+    //Reduktionsfunktion
+ //   public void Reduktionsfunktion(ArrayList<String> Hashwert, int Stufe, ArrayList<String> Z){
+ //       ArrayList<String> H = Hashwert + Stufe;
+ //       for (int i = 0; i < L; i++){
+ //           int roundI = H%Z.size();
+ //           H = H / Z.size();
+ //       }
+ //       return H;
+ //   }
 }
-
-
-
-    ////Reduktionsfunktion
-    //public void Reduktionsfunktion(ArrayList<String> Hashwert, int Stufe, ArrayList<String> Z){
-    //    ArrayList<String> H = Hashwert + Stufe;
-    //    for (int i = 0; i < L; i++){
-    //        int roundI = H%Z.size();
-    //        H = H / Z.size();
-    //    }
-    //    return H;
-    //}
