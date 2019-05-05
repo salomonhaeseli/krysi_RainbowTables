@@ -205,6 +205,7 @@ public class Main {
         for(int j =0;j<endValues.size();j++){
             if (check==endValues.get(j)){
                 foundEndValue=endValues.get(j);
+                return foundEndValue;
             }
         }
 
@@ -212,9 +213,9 @@ public class Main {
         check=toBeFined;
         for(int k=0;k<chainLength;k++){
 
-            for (int i=times; i>chainLength;i++){
+            for (int i=chainLength-times; i>chainLength;i++){
                 check = generateHash(check);
-                check = Reduktionsfunktion(check,chainLength-i,Z);
+                check = Reduktionsfunktion(check,i,Z);
             }
 
             for(int j =0;j<endValues.size();j++){
