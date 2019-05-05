@@ -14,12 +14,14 @@ public class Main {
         ArrayList<String> passwords = getPasswords(amountOfPasswords, password,lengthOfPassword); //Arraylist to save the first 2000 passwords
         generateHash("0000000");
         ArrayList<String> output = getReducedPasswords(amountOfPasswords, passwords, 2000); //Arraylist to save the 2000 reduced hashes
-        System.out.println(output);
+        String found = findPassword(findPasswordFor,passwords,output,2000,generateZ());
+        System.out.println(found);
 
     }
 
     static int lengthOfPassword = 7;
     static int amountOfPasswords = 2000;
+    static String findPasswordFor = "1d56a37fb6b08aa709fe90e12ca59e12";
 
     /**
      * generate first password
@@ -180,6 +182,7 @@ public class Main {
      *
      * @param amountOfPasswords: amount of passwords needed to be generated
      * @param passwords: Arraylist of password which to be hashed/reduced
+     * @param chainLength: lenght of chain
      * @return: Arraylist of hashed/reduced passwords n times
      */
     public static ArrayList<String> getReducedPasswords(int amountOfPasswords, ArrayList<String> passwords, int chainLength){
@@ -193,5 +196,36 @@ public class Main {
             output.add(i, current);
         }
         return output;
+    }
+
+    public static String findPassword(String toBeFined, ArrayList<String> startValues, ArrayList<String> endValues, int chainLength, ArrayList<String> Z){
+        String check = Reduktionsfunktion(toBeFined,chainLength,Z);
+        String foundEndValue = "";
+
+        for(int j =0;j<endValues.size();j++){
+            if (check==endValues.get(j)){
+                foundEndValue=endValues.get(j);
+            }
+        }
+
+        int times = 1;
+        check=toBeFined;
+        for(int k=0;k<chainLength;k++){
+
+            for (int i=times; i>chainLength;i++){
+                check = generateHash(check);
+                check = Reduktionsfunktion(check,chainLength-i,Z);
+            }
+
+            for(int j =0;j<endValues.size();j++){
+                if (check.equals(endValues.get(j))){
+                    foundEndValue=endValues.get(j);
+                    return foundEndValue;
+                }
+            }
+            times++;
+        }
+        return "nothing found";
+
     }
 }
