@@ -13,7 +13,7 @@ public class Main {
         ArrayList<String> password = generateFirstPassword();
         ArrayList<String> passwords = getPasswords(amountOfPasswords, password,lengthOfPassword); //Arraylist to save the first 2000 passwords
         generateHash("0000000");
-        ArrayList<String> output = getReducedPasswords(amountOfPasswords, passwords); //Arraylist to save the 2000 reduced hashes
+        ArrayList<String> output = getReducedPasswords(amountOfPasswords, passwords, 2000); //Arraylist to save the 2000 reduced hashes
         System.out.println(output);
 
     }
@@ -156,6 +156,13 @@ public class Main {
 
     }
 
+    /**
+     *
+     * @param amountOfPasswords: amount of passwords needed to be generated
+     * @param password: first password
+     * @param lengthOfPassword: length of password
+     * @return: Arraylist of n passwords
+     */
     public static ArrayList<String> getPasswords(int amountOfPasswords, ArrayList<String> password, int lengthOfPassword){
         ArrayList<String> passwords = new ArrayList<>();
         String passwordAsString = "";
@@ -169,12 +176,21 @@ public class Main {
         return passwords;
     }
 
-    public static ArrayList<String> getReducedPasswords(int amountOfPasswords, ArrayList<String> passwords){
+    /**
+     *
+     * @param amountOfPasswords: amount of passwords needed to be generated
+     * @param passwords: Arraylist of password which to be hashed/reduced
+     * @return: Arraylist of hashed/reduced passwords n times
+     */
+    public static ArrayList<String> getReducedPasswords(int amountOfPasswords, ArrayList<String> passwords, int chainLength){
         ArrayList<String> output = new ArrayList<>();
         for (int i = 0; i < amountOfPasswords; i++){
-            String hash = generateHash(passwords.get(i));
-            String reduced = Reduktionsfunktion(hash, i, generateZ());
-            output.add(i, reduced);
+            String current = passwords.get(i);
+            for (int j=0; j < chainLength; j++){
+                String hash = generateHash(current);
+                current = Reduktionsfunktion(hash, j, generateZ());
+            }
+            output.add(i, current);
         }
         return output;
     }
