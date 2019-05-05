@@ -1,7 +1,5 @@
-import java.lang.reflect.Array;
 import java.math.BigInteger;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.stream.Collectors;
 
 import org.apache.commons.codec.digest.DigestUtils;
@@ -195,12 +193,20 @@ public class Main {
                 current = Reduktionsfunktion(hash, j, generateZ());
             }
             output.add(i, current);
-            System.out.println(current);
         }
         return output;
     }
 
-    public static String findPassword(String toBeFined, ArrayList<String> startValues, ArrayList<String> endValues, int chainLength, ArrayList<String> Z){
+    /**
+     *
+     * @param toBeFound: Hash value which needs to be found
+     * @param startValues: Arraylist with initial password
+     * @param endValues: Arraylist which passwords from end of chain
+     * @param chainLength: length of chain
+     * @param Z: list of possible chars at password
+     * @return: password matching to hash value
+     */
+    public static String findPassword(String toBeFound, ArrayList<String> startValues, ArrayList<String> endValues, int chainLength, ArrayList<String> Z){
         String check = "";
         String foundEndValue = "";
         int times = 0;
@@ -208,25 +214,49 @@ public class Main {
         for(int k=0;k<chainLength;k++){
 
             int step = chainLength-times;
-            check=toBeFined;
+            check=toBeFound;
 
-            for (int i=step; i<chainLength;i++){
+            for (int i=step; i<chainLength-1;i++){
                 String reduced = Reduktionsfunktion(check,i,Z);
                 String hash = generateHash(reduced);
                 check = hash;
             }
 
-            check=Reduktionsfunktion(check,chainLength,Z);
+            check=Reduktionsfunktion(check,chainLength-1,Z);
 
             for(int j =0;j<endValues.size();j++){
                 if (check.equals(endValues.get(j))){
-                    foundEndValue=endValues.get(j);
-                    return foundEndValue;
+                    ArrayList<String> start = new ArrayList<>();
+                    start.add(startValues.get(j));
+                    return findHash(start,2000,toBeFound);
                 }
             }
             times++;
         }
-        return "nothing found";
+        return null;
 
+    }
+
+    /**
+     *
+     * @param passwords: start password of chain
+     * @param chainLength: length of chain
+     * @param toFind: hach value which needs to be found
+     * @return: value before hash value in chain
+     */
+    public static String findHash(ArrayList<String> passwords, int chainLength, String toFind){
+        ArrayList<String> output = new ArrayList<>();
+        for (int i = 0; i < 1; i++){
+            String current = passwords.get(i);
+            for (int j=0; j < chainLength; j++){
+                String hash = generateHash(current);
+                String reduce = Reduktionsfunktion(hash, j, generateZ());
+                if (hash.equals(toFind)){
+                    return current+" "+(j-1);
+                }
+                current=reduce;
+            }
+        }
+        return "";
     }
 }
