@@ -10,16 +10,22 @@ public class Main {
 
         ArrayList<String> password = generateFirstPassword();
         ArrayList<String> passwords = getPasswords(amountOfPasswords, password,lengthOfPassword); //Arraylist to save the first 2000 passwords
-        generateHash("0000000");
         ArrayList<String> output = getReducedPasswords(amountOfPasswords, passwords, 2000); //Arraylist to save the 2000 reduced hashes
         String found = findPassword(findPasswordFor,passwords,output,2000,generateZ());
         System.out.println(found);
+        if (checkCollision(findPasswordFor, positionInChain, passwords) == false) {
+            System.out.println("Es ist keine Kollision vorhanden");
+        }
+        else {
+            System.out.println("Kollision gefunden! Tatüütataaa!!");
+        }
 
     }
 
     static int lengthOfPassword = 7;
     static int amountOfPasswords = 2000;
     static String findPasswordFor = "1d56a37fb6b08aa709fe90e12ca59e12";
+    static int positionInChain = 1601;
 
     /**
      * generate first password
@@ -258,5 +264,13 @@ public class Main {
             }
         }
         return "";
+    }
+    public static boolean checkCollision(String findPasswordFor, int positionInChain, ArrayList<String> passwords){
+        ArrayList<String>  hashAtPositionInChain = getReducedPasswords(amountOfPasswords, passwords, positionInChain);
+
+        if (hashAtPositionInChain.contains(findPasswordFor)) {
+            return true;
+        }
+        return false;
     }
 }
