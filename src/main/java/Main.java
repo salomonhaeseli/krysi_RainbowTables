@@ -292,9 +292,8 @@ public class Main {
     public static boolean checkCollision(String findPasswordFor, int positionInChain, ArrayList<String> passwords){
 
         ArrayList<String>  hashAtPositionInChain = getHashes(amountOfPasswords, passwords, positionInChain);
-        String possibleCollision = hashAtPositionInChain.get(positionInChain+1);
 
 
-        return findPasswordFor.equals(possibleCollision);
+        return hashAtPositionInChain.contains(findPasswordFor);
     }
 }
