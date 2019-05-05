@@ -202,21 +202,27 @@ public class Main {
         String check = Reduktionsfunktion(toBeFined,chainLength,Z);
         String foundEndValue = "";
 
-        for(int j =0;j<endValues.size();j++){
-            if (check==endValues.get(j)){
-                foundEndValue=endValues.get(j);
-                return foundEndValue;
-            }
-        }
+//        for(int j =0;j<endValues.size();j++){
+//            if (check.equals(endValues.get(j))){
+//                foundEndValue=endValues.get(j);
+//                return foundEndValue;
+//            }
+//        }
 
-        int times = 1;
-        check=toBeFined;
+        int times = 5;
+
         for(int k=0;k<chainLength;k++){
 
-            for (int i=chainLength-times; i>chainLength;i++){
-                check = generateHash(check);
-                check = Reduktionsfunktion(check,i,Z);
+            int step = chainLength-times;
+            check=toBeFined;
+
+            for (int i=step; i<chainLength;i++){
+                String reduced = Reduktionsfunktion(check,i,Z);
+                String hash = generateHash(reduced);
+                check = hash;
             }
+
+            check=Reduktionsfunktion(check,chainLength,Z);
 
             for(int j =0;j<endValues.size();j++){
                 if (check.equals(endValues.get(j))){
