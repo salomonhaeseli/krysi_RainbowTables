@@ -11,13 +11,26 @@ public class Main {
     public static void main(String[] args) {
 
         ArrayList<String> password = generateFirstPassword();
+        ArrayList<String> passwords = new ArrayList<>(); //Arraylist to save the first 2000 passwords
         generateHash("0000000");
+        String passwordAsString = "";
+        ArrayList<String> output = new ArrayList<>(); //Arraylist to save the 2000 reduced hashes
+
         for (int i = 0; i < amountOfPasswords; i++){
             password = generatePassword(password, lengthOfPassword, generateZ());
-            String passwordAsString = password.stream()
+            passwordAsString = password.stream()
                     .map(n -> String.valueOf(n))
                     .collect(Collectors.joining("","", ""));
+            passwords.add(i,passwordAsString);
         }
+
+        for (int i = 0; i < amountOfPasswords; i++){
+            String hash = generateHash(passwords.get(i));
+            String reduced = Reduktionsfunktion(hash, i, generateZ());
+            output.add(i, reduced);
+        }
+        System.out.println(output);
+
     }
 
     static int lengthOfPassword = 7;
