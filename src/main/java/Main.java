@@ -192,6 +192,7 @@ public class Main {
      */
     public static ArrayList<String> getReducedPasswords(int amountOfPasswords, ArrayList<String> passwords, int chainLength){
         ArrayList<String> output = new ArrayList<>();
+
         for (int i = 0; i < amountOfPasswords; i++){
             String current = passwords.get(i);
             for (int j=0; j < chainLength; j++){
@@ -202,6 +203,29 @@ public class Main {
         }
         return output;
     }
+
+    /**
+     *
+     * @param amountOfPasswords: amount of passwords needed to be generated
+     * @param passwords: Arraylist of password which to be hashed/reduced
+     * @param chainLength: lenght of chain
+     * @return Arraylist mit allen Hashwerten.
+     */
+    public static ArrayList<String> getHashes(int amountOfPasswords, ArrayList<String> passwords, int chainLength){
+        ArrayList<String> output = new ArrayList<>();
+
+        for (int i = 0; i < amountOfPasswords; i++){
+            String current = passwords.get(i);
+            String hash = "";
+            for (int j=0; j < chainLength; j++){
+                hash = generateHash(current);
+                current = Reduktionsfunktion(hash, j, generateZ());
+            }
+            output.add(i, hash);
+        }
+        return output;
+    }
+
 
     /**
      *
@@ -266,11 +290,11 @@ public class Main {
         return "";
     }
     public static boolean checkCollision(String findPasswordFor, int positionInChain, ArrayList<String> passwords){
-        ArrayList<String>  hashAtPositionInChain = getReducedPasswords(amountOfPasswords, passwords, positionInChain);
 
-        if (hashAtPositionInChain.contains(findPasswordFor)) {
-            return true;
-        }
-        return false;
+        ArrayList<String>  hashAtPositionInChain = getHashes(amountOfPasswords, passwords, positionInChain);
+        String possibleCollision = hashAtPositionInChain.get(positionInChain+1);
+
+
+        return findPasswordFor.equals(possibleCollision);
     }
 }
