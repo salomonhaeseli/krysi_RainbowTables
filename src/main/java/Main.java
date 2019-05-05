@@ -11,24 +11,9 @@ public class Main {
     public static void main(String[] args) {
 
         ArrayList<String> password = generateFirstPassword();
-        ArrayList<String> passwords = new ArrayList<>(); //Arraylist to save the first 2000 passwords
+        ArrayList<String> passwords = getPasswords(amountOfPasswords, password,lengthOfPassword); //Arraylist to save the first 2000 passwords
         generateHash("0000000");
-        String passwordAsString = "";
-        ArrayList<String> output = new ArrayList<>(); //Arraylist to save the 2000 reduced hashes
-
-        for (int i = 0; i < amountOfPasswords; i++){
-            password = generatePassword(password, lengthOfPassword, generateZ());
-            passwordAsString = password.stream()
-                    .map(n -> String.valueOf(n))
-                    .collect(Collectors.joining("","", ""));
-            passwords.add(i,passwordAsString);
-        }
-
-        for (int i = 0; i < amountOfPasswords; i++){
-            String hash = generateHash(passwords.get(i));
-            String reduced = Reduktionsfunktion(hash, i, generateZ());
-            output.add(i, reduced);
-        }
+        ArrayList<String> output = getReducedPasswords(amountOfPasswords, passwords); //Arraylist to save the 2000 reduced hashes
         System.out.println(output);
 
     }
@@ -171,4 +156,26 @@ public class Main {
 
     }
 
+    public static ArrayList<String> getPasswords(int amountOfPasswords, ArrayList<String> password, int lengthOfPassword){
+        ArrayList<String> passwords = new ArrayList<>();
+        String passwordAsString = "";
+        for (int i = 0; i < amountOfPasswords; i++){
+            password = generatePassword(password, lengthOfPassword, generateZ());
+            passwordAsString = password.stream()
+                    .map(n -> String.valueOf(n))
+                    .collect(Collectors.joining("","", ""));
+            passwords.add(i,passwordAsString);
+        }
+        return passwords;
+    }
+
+    public static ArrayList<String> getReducedPasswords(int amountOfPasswords, ArrayList<String> passwords){
+        ArrayList<String> output = new ArrayList<>();
+        for (int i = 0; i < amountOfPasswords; i++){
+            String hash = generateHash(passwords.get(i));
+            String reduced = Reduktionsfunktion(hash, i, generateZ());
+            output.add(i, reduced);
+        }
+        return output;
+    }
 }
