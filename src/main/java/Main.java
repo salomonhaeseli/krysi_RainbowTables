@@ -167,8 +167,9 @@ public class Main {
      */
     public static ArrayList<String> getPasswords(int amountOfPasswords, ArrayList<String> password, int lengthOfPassword){
         ArrayList<String> passwords = new ArrayList<>();
+        passwords.add(0,"0000000");
         String passwordAsString = "";
-        for (int i = 0; i < amountOfPasswords; i++){
+        for (int i = 1; i < amountOfPasswords; i++){
             password = generatePassword(password, lengthOfPassword, generateZ());
             passwordAsString = password.stream()
                     .map(n -> String.valueOf(n))
@@ -194,22 +195,15 @@ public class Main {
                 current = Reduktionsfunktion(hash, j, generateZ());
             }
             output.add(i, current);
+            System.out.println(current);
         }
         return output;
     }
 
     public static String findPassword(String toBeFined, ArrayList<String> startValues, ArrayList<String> endValues, int chainLength, ArrayList<String> Z){
-        String check = Reduktionsfunktion(toBeFined,chainLength,Z);
+        String check = "";
         String foundEndValue = "";
-
-//        for(int j =0;j<endValues.size();j++){
-//            if (check.equals(endValues.get(j))){
-//                foundEndValue=endValues.get(j);
-//                return foundEndValue;
-//            }
-//        }
-
-        int times = 5;
+        int times = 0;
 
         for(int k=0;k<chainLength;k++){
 
