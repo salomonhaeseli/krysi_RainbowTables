@@ -13,11 +13,12 @@ public class Main {
         ArrayList<String> output = getReducedPasswords(amountOfPasswords, passwords, 2000); //Arraylist to save the 2000 reduced hashes
         String found = findPassword(findPasswordFor,passwords,output,2000,generateZ());
         System.out.println(found);
-        if (checkCollision(findPasswordFor, positionInChain, passwords) == false) {
+        int number = checkCollision(findPasswordFor, positionInChain, passwords);
+        if (number <=1) {
             System.out.println("Es ist keine Kollision vorhanden");
         }
         else {
-            System.out.println("Kollision gefunden! Tatüütataaa!!");
+            System.out.println("Kollision gefunden! Tatüütataaa!!"+" "+(number-1)+" Kollisionen gefunden!");
         }
 
     }
@@ -25,7 +26,7 @@ public class Main {
     static int lengthOfPassword = 7;
     static int amountOfPasswords = 2000;
     static String findPasswordFor = "1d56a37fb6b08aa709fe90e12ca59e12";
-    static int positionInChain = 1601;
+    static int positionInChain = 1602;
 
     /**
      * generate first password
@@ -264,7 +265,6 @@ public class Main {
             times++;
         }
         return null;
-
     }
 
     /**
@@ -282,18 +282,23 @@ public class Main {
                 String hash = generateHash(current);
                 String reduce = Reduktionsfunktion(hash, j, generateZ());
                 if (hash.equals(toFind)){
-                    return current+" "+(j-1);
+                    return "Passwort = "+current+" an Stelle "+(j)+" von Kette.";
                 }
                 current=reduce;
             }
         }
         return "";
     }
-    public static boolean checkCollision(String findPasswordFor, int positionInChain, ArrayList<String> passwords){
+    public static int checkCollision(String findPasswordFor, int positionInChain, ArrayList<String> passwords){
 
         ArrayList<String>  hashAtPositionInChain = getHashes(amountOfPasswords, passwords, positionInChain);
+        int number =0;
+        for (int i=0;i<passwords.size();i++){
+            if (hashAtPositionInChain.get(i).equals(findPasswordFor)){
+                number++;
+            }
+        }
 
-
-        return hashAtPositionInChain.contains(findPasswordFor);
+        return number;
     }
 }
